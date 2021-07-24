@@ -15,9 +15,17 @@ public interface AdminMapper {
     //接收多个值
     List<Map> fecthAdminByConditions(@Param("uname") String username, @Param("upwd") String password);
 
-    //接收Map
+    //接收Map & insert标签的使用
     int insertAdmin(Map map);
 
-    //接收实体pojo
+    //接收实体pojo & insert标签的使用
     int insertPojo(Admin admin);
+
+    //update标签的使用
+    int updateAdmin(Map map);
+
+    //delete标签的使用
+    int deleteAdminById(int id);
+
+
 }

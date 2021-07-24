@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--mybatis使用形式二：namespace+id定位接口名+接口方法名-->
+<!--                mybatis使用形式二：namespace+id定位接口名+接口方法名            -->
 
 <!--namespace定位接口路径名-->
 <mapper namespace="com.mapper.AdminMapper">
@@ -12,26 +12,37 @@
         select * from adminlogin
     </select>
 
-    <!--parameterType的使用-->
 
-<!--    接收单一值-->
+    <!--                parameterType的使用                -->
+
+    <!--接收单一值-->
     <select id="fecthAdminByID" resultType="java.util.Map" parameterType="java.lang.Integer">
         select * from adminlogin where id = #{id}
     </select>
 
-<!--    接收多个值-->
+    <!--接收多个值-->
     <select id="fecthAdminByConditions" resultType="java.util.Map">
         select * from adminlogin where username = #{uname} and password = #{upwd}
     </select>
 
-<!--    接收Map-->
+    <!--接收Map-->
     <insert id="insertAdmin" parameterType="java.util.Map">
         insert into adminlogin values (#{adminid}, #{adminuser}, #{adminpwd}, #{adminname});
     </insert>
 
-<!--    接收实体-->
+    <!--接收实体-->
     <insert id="insertPojo" parameterType="com.pojo.Admin">
         insert into adminlogin values (#{id}, #{username}, #{password}, #{name});
     </insert>
+
+    <!--                update标签的使用             -->
+    <update id="updateAdmin" parameterType="java.util.Map">
+        update adminlogin set username = #{adminuser}, password = #{adminpwd} where id = #{adminid}
+    </update>
+
+    <!--                delete标签的使用             -->
+    <delete id="deleteAdminById" parameterType="java.lang.Integer">
+        delete from adminlogin where id = #{id}
+    </delete>
 
 </mapper>

@@ -1,7 +1,6 @@
 package test;
 
 import com.mapper.AdminMapper;
-import com.mapper.MajorMapper;
 import com.pojo.Admin;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -16,11 +15,11 @@ import java.util.Map;
 
 /**
  * test for mybatis
- * parameterType接收不同数据类型的使用
+ * insert, update, delete标签的使用
  * @author Di Guan on 7/23/2021 6:34 PM
  */
 
-public class TestForMaybtis02 {
+public class TestForMaybtis03 {
     public static void main(String[] args) {
         SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
         try {
@@ -29,31 +28,28 @@ public class TestForMaybtis02 {
             SqlSession sqlSession = sqlSessionFactory.openSession();
 
             AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
-            //单一值
-            List<Map> map1 = mapper.fecthAdminByID(2);
-            System.out.println(map1);
-            //多个值
-            List<Map> maps2 = mapper.fecthAdminByConditions("dguan", "123445");
-            System.out.println(maps2);
-            //Map
-            HashMap<Object, Object> map = new HashMap<>();
-            map.put("adminid", 6);
-            map.put("adminuser", "dguan@purdue.edu");
-            map.put("adminpwd", "123456");
-            map.put("adminname", "Di Guan");
-            int i = mapper.insertAdmin(map);
-            System.out.println(i);
-            sqlSession.commit();
-            //实体pojo
-            Admin admin = new Admin();
-            admin.setId(7);
-            admin.setUsername("random@com");
-            admin.setPassword("123456");
-            admin.setName("random");
-            int j = mapper.insertPojo(admin);
+
+            //insert标签的使用
+//            HashMap<Object, Object> map = new HashMap<>();
+//            map.put("adminid", 8);
+//            map.put("adminuser", "insert@purdue.edu");
+//            map.put("adminpwd", "123456");
+//            map.put("adminname", "insert");
+//            int i = mapper.insertAdmin(map);
+//            sqlSession.commit();
+//            System.out.println(i);
+
+            //update标签的使用
+            HashMap<Object, Object> map1 = new HashMap<>();
+            map1.put("adminid",8);
+            map1.put("adminuser", "update@purdue.edu");
+            map1.put("adminpwd", "666666");
+            mapper.updateAdmin(map1);
             sqlSession.commit();
 
-            System.out.println(j);
+            //delete标签的使用
+            mapper.deleteAdminById(8);
+            sqlSession.commit();
 
             sqlSession.close();
         } catch (IOException e) {

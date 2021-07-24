@@ -14,7 +14,8 @@ import java.util.Map;
 
 /**
  * test for mybatis
- *
+ * mybatis的三种使用方式
+ * select标签的使用
  * @author Di Guan on 7/23/2021 6:34 PM
  */
 
