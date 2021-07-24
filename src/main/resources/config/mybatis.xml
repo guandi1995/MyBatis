@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <properties resource="config/database.properties"></properties>
+
+    <settings>
+        <!--开启驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--开启打印日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <environments default="development">
+        <environment id="development">
+            <!--mybatis自带的事务管理器-->
+            <transactionManager type="JDBC"/>
+            <!--datasource数据库连接池-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${database.className}"/>
+                <property name="url" value="${database.url}"/>
+                <property name="username" value="${database.user}"/>
+                <property name="password" value="${database.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--加载mapper映射文件-->
+    <mappers>
+        <mapper resource="com/mapper/StudentMapper.xml"/>
+        <mapper resource="com/mapper/AdminMapper.xml"/>
+        <mapper class="com.mapper.MajorMapper"/>
+    </mappers>
+
+</configuration>

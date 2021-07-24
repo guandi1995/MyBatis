@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--mybatis使用形式一：namespace+id定位mapper文件+SQL语句-->
+
+<!--namespace定位文件-->
+<mapper namespace="mapper">
+    <!--id定位SQL语句, resultType指明映射关系-->
+    <select id="selectStu" resultType="java.util.Map">
+        select * from studentinfo
+    </select>
+
+</mapper>

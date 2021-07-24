@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--mybatis使用形式二：namespace+id定位接口名+接口方法名-->
+
+<!--namespace定位接口路径名-->
+<mapper namespace="com.mapper.AdminMapper">
+    <!--id定位接口中的方法名, resultType指明映射关系-->
+    <select id="selectAdmin" resultType="java.util.Map">
+        select * from adminlogin
+    </select>
+
+    <!--获取parameter的名字随便取-->
+    <select id="fecthAdminByID" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select * from adminlogin where id = #{id}
+    </select>
+</mapper>
