@@ -12,8 +12,26 @@
         select * from adminlogin
     </select>
 
-    <!--获取parameter的名字随便取-->
+    <!--parameterType的使用-->
+
+<!--    接收单一值-->
     <select id="fecthAdminByID" resultType="java.util.Map" parameterType="java.lang.Integer">
         select * from adminlogin where id = #{id}
     </select>
+
+<!--    接收多个值-->
+    <select id="fecthAdminByConditions" resultType="java.util.Map">
+        select * from adminlogin where username = #{uname} and password = #{upwd}
+    </select>
+
+<!--    接收Map-->
+    <insert id="insertAdmin" parameterType="java.util.Map">
+        insert into adminlogin values (#{adminid}, #{adminuser}, #{adminpwd}, #{adminname});
+    </insert>
+
+<!--    接收实体-->
+    <insert id="insertPojo" parameterType="com.pojo.Admin">
+        insert into adminlogin values (#{id}, #{username}, #{password}, #{name});
+    </insert>
+
 </mapper>
