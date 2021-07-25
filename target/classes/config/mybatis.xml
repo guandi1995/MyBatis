@@ -8,7 +8,7 @@
 
     <settings>
         <!--开启驼峰命名-->
-        <setting name="mapUnderscoreToCamelCase" value="true"/>
+<!--        <setting name="mapUnderscoreToCamelCase" value="true"/>-->
         <!--开启打印日志-->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
@@ -32,6 +32,9 @@
         <mapper resource="com/mapper/StudentMapper.xml"/>
         <mapper resource="com/mapper/AdminMapper.xml"/>
         <mapper class="com.mapper.MajorMapper"/>
+
+        <mapper resource="com/mapper/StudentResultMapMapper.xml"/>
+        <mapper resource="com/mapper/StudentResultMapMapper2.xml"/>
     </mappers>
 
 </configuration>

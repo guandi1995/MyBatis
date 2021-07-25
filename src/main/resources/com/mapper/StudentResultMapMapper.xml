@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.mapper.StudentResultMapMapper">
+
+    <!--        resultMap使用场景一：手动映射需要映射的column      -->
+    <!--数据库column名和实体类attribute名不一致(大小写或下划线以外)-->
+
+    <!--这里resultMap标签的id属性名需要和下面select标签的resultMap属性名一致，为了指明映射关系-->
+    <!--resultMap标签中还需要声明type，即实体类的完全限定名-->
+    <!--resultMap标签中也可以声明automapping自动映射，默认跟全局，即true；
+        如果设置为false，则只会映射<result>声明的column-->
+    <resultMap id="studentMap" type="com.pojo.StudentPojo" autoMapping="true">
+        <!-- resultMap标签中同时需要声明id标签和result标签，-->
+        <!-- id标签：唯一列，一般都需要声明。如果是嵌套resultMap，必须声明-->
+        <!-- result标签：普通列中需要绑定映射关系的标签，必须写-->
+        <id column="stuid" property="stuid"/>
+        <result column="age" property="stuage"/>
+    </resultMap>
+
+    <select id="fetchStudents" resultMap="studentMap">
+        select * from studentinfo
+    </select>
+
+    <!--        resultMap使用场景二：多对一嵌套映射      -->
+    <!--resultMap中存储多的一端(StudentMojo实体),
+    声明id标签, 对应的是StudentPojo中的唯一列stuid
+    声明result标签手动映射的column age对应 attribute stuage-->
+    <resultMap id="studentsMajor" type="com.pojo.StudentPojo" autoMapping="true">
+        <id column="stuid" property="stuid"/>
+        <result column="age" property="stuage"/>
+        <!--声明association标签，嵌套MajorPojo实体, property属性对应的是StudentPojo中的major属性名
+        声明id标签，对应的是MajorPojo中的唯一列major_id-->
+        <association property="major" javaType="com.pojo.MajorPojo" autoMapping="true">
+            <id column="major_id" property="major_id"/>
+        </association>
+    </resultMap>
+    <select id="fetchStudentsMajor" resultMap="studentsMajor">
+        select stu.*, mj.* from studentinfo stu left join major mj
+            on stu.major_id = mj.major_id;
+    </select>
+
+    <!--        resultMap使用场景二：一对多嵌套映射      -->
+    <!--resultMap中存储一的一端(MajorPojo实体),
+    声明id标签, 对应的是MajorPojo中的唯一列major_id-->
+    <resultMap id="majorStudents" type="com.pojo.MajorPojo" autoMapping="true">
+        <id column="major_id" property="major_id"/>
+        <!--声明collection标签，property属性对应的是MajorPojo实体中的stuLists-->
+        <collection property="stuLists" ofType="com.pojo.StudentPojo" autoMapping="true">
+            <id column="stuid" property="stuid"/>
+            <result column="age" property="stuage"/>
+        </collection>
+    </resultMap>
+    <select id="fetchMajorStudents" resultMap="majorStudents">
+        select stu.*, mj.* from studentinfo stu left join major mj
+            on stu.major_id = mj.major_id;
+    </select>
+
+
+</mapper>

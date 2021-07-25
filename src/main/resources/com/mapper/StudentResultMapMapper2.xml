@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.mapper.StudentResultMapMapper2">
+
+    <!--        resultMap使用场景二：一对多嵌套映射，二次select查询      -->
+    <!--但是二次查询的方法在效率上较低，因为会出现n+1的问题，一对多体现的不是很明显，但是多对一使用二次查询，效率极地-->
+
+    <resultMap id="majorStudents" type="com.pojo.MajorPojo" autoMapping="true">
+        <id column="major_id" property="major_id"/>
+        <collection property="stuLists" ofType="com.pojo.StudentPojo" autoMapping="true"
+                    select="fetchStudents" column="major_id" fetchType="lazy">
+            <id column="stuid" property="stuid"/>
+            <result column="age" property="stuage"/>
+        </collection>
+    </resultMap>
+
+    <select id="fetchMajors" resultMap="majorStudents">
+        select * from major
+    </select>
+    <select id="fetchStudents" resultType="com.pojo.StudentPojo">
+        select * from studentinfo where major_id = #{major_id}
+    </select>
+
+    
+</mapper>
