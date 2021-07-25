@@ -45,4 +45,10 @@
         delete from adminlogin where id = #{id}
     </delete>
 
+
+    <!--                新增返回主键              -->
+    <insert id="insertReturnKey" parameterType="com.pojo.Admin" useGeneratedKeys="true" keyProperty="id">
+        insert into adminlogin (username, password, name) values (#{username},#{password},#{name})
+    </insert>
+
 </mapper>

@@ -27,5 +27,7 @@ public interface AdminMapper {
     //delete标签的使用
     int deleteAdminById(int id);
 
+    //新增返回主键
+    int insertReturnKey(Admin admin);
 
 }
