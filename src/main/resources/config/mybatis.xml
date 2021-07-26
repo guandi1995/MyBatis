@@ -36,6 +36,7 @@
         <mapper resource="com/mapper/StudentResultMapMapper.xml"/>
         <mapper resource="com/mapper/StudentResultMapMapper2.xml"/>
         <mapper resource="com/mapper/DynamicSQLMapper.xml"/>
+        <mapper resource="com/mapper/CacheMapper.xml"/>
     </mappers>
 
 </configuration>
