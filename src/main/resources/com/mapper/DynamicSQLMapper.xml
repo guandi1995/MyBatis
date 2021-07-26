@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.DynamicSQLMapper">
+<!--                if,choose标签             -->
+    <select id="fetchByCondition" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from studentinfo where 1=1
+        <if test="stuname != null">
+            and stuname like '%${stuname}%'
+        </if>
+        <if test="age != null">
+            and age > #{age}
+        </if>
+        <choose>
+            <when test="gender == 'M'.toString()">
+                and gender = 'Male'
+            </when>
+            <when test="gender == 'F'.toString()">
+                and gender = 'Female'
+            </when>
+            <otherwise>
+                and gender is null
+            </otherwise>
+        </choose>
+        order by age
+    </select>
+
+<!--                trim标签, where,set标签             -->
+<!--    前后补全prefix,suffix，前后覆盖prefixOverrides,suffixOverrides,-->
+    <select id="fetchByCondition2" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from studentinfo
+        <where>
+        <!--<trim prefix="where" prefixOverrides="and">-->
+            <if test="stuname != null">
+                and stuname like '%${stuname}%'
+            </if>
+            <if test="age != null">
+                and age > #{age}
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+        </where>
+        order by age
+    </select>
+
+    <!--选择修改，set标签-->
+    <update id="updateByCondition" parameterType="java.util.Map">
+        update studentinfo
+        <!--<trim prefix="set" suffixOverrides=",">-->
+        <set>
+            <if test="stuname != null">
+                stuname = #{stuname},
+            </if>
+            <if test="age != null">
+                age > #{age},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="major_id != null">
+                major_id = #{major_id},
+            </if>
+        </set>
+        <!--</trim>-->
+        where stuid = #{stuid}
+    </update>
+
+
+<!--                foreach标签               -->
+<!--    in(?,?,?)-->
+    <select id="fetchByCondition3" parameterType="java.util.Map" resultType="java.util.Map">
+        select * from studentinfo where age in
+        <foreach collection="age_range" item="age" open="(" close=")" separator=",">
+            #{age}
+        </foreach>
+    </select>
+    <select id="fetchByCondition4" resultType="java.util.Map">
+        select * from studentinfo where age in
+        <foreach collection="array" item="age" open="(" close=")" separator=",">
+            #{age}
+        </foreach>
+    </select>
+    <select id="fetchByCondition5" resultType="java.util.Map">
+        select * from studentinfo where age in
+        <foreach collection="list" item="age" open="(" close=")" separator=",">
+            #{age}
+        </foreach>
+    </select>
+
+<!--    批量新增-->
+    <insert id="insertBatch">
+        insert into studentinfo (stuid, stuname, age, gender, major_id) values
+        <foreach collection="list" item="student" separator=",">
+            (#{student.stuid}, #{student.stuname}, #{student.age}, #{student.gender}, #{student.major_id})
+        </foreach>
+    </insert>
+</mapper>
